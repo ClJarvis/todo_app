@@ -1,0 +1,28 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #9c6;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.bg-primary{
+  background-color: #669933;
+  color: #336633;
+
+}
+
+form{
+	padding:  14px;
+}
+
+input + label.error {
+ background-color: #669933;
+ color: #000000;
+
+
+
+}
+

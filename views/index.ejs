@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= header %></h1>
+    <p> <%= body %></p>
+
+<form method="POST" action="/todo" id="todoform" class="form-horizontal bg-primary">
+	    	<div class="form-group">
+	    		 <label for="toDoTitle" class="col-sm-2 control-label">TItle:</label>
+		    		<div class="col-sm-10">
+		    		<input type="text" id="toDoTitle" name="title" required></input>
+		    	      </div>
+	    	</div>
+	    	<div class="form-group">
+	    		<label for="dueDate" class="col-sm-2 control-label">Due Date:</label>
+	    		<div class="col-sm-10">
+	    			<input type="date" id="dueDate" name="dueDate" required></input>
+	    		</div>
+	    	</div>
+	    	<div class="form-group">
+	    		<!-- <label for="timeStamp" class="col-sm-2 control-label">Timestamp:</label>
+	    		<div class="col-sm-10">
+	    			<input type="text" id="timeStamp" name="timeStamp" required></input>
+	    		</div>
+	    	</div> -->
+ 	    	<div class="form-group">
+	    		<label for="toDoDescription" class="col-sm-2 control-label" >Description:</label>
+	    		<div class="col-sm-10">
+				<textarea id="toDoDescription" name="description" class="form-control" rows="3" required></textarea>
+			</div>
+	    	</div>
+		<div class="form-group">
+		 		<label for="priority" class="col-sm-2 control-label" requied>Priority:</label>
+
+	    		<select name="priority">
+	    			<option value="1"> 1</option>
+	    			<option value="2"> 2</option>
+	    			<option value="3"> 3</option>
+	    			<option value="4"> 4</option>
+	    			<option value="5"> 5</option>
+	    			<option value="6"> 6</option>
+	    			<option value="7"> 7</option>
+	    			<option value="8"> 8</option>
+	    			<option value="9"> 9</option>
+	    			<option value="10"> 10</option>
+			</select>
+	    </div>
+	    <div class="form-group">
+	    		<label for="toDoDone" class="col-sm-2 control-label">Compelete?</label>
+	    		Yes <input type="checkbox" id="todoDone" name="complete"></input>
+	    		<!-- <input type="checkbox" id="todoDone" name="complete">No</input> -->
+	    </div>
+
+	      <button type="submit" class="btn-success btn-lg" value="Validate!">Create To Do List.</button><br>
+
+	       List your to do items here.
+</form>
+
+
+
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/additional-methods.min.js"></script>
+
+
+  </body>
+  <!-- to do list form   -->
+  <!-- 1 make form look good use bootstrap
+  2 validate form make sure user enter correct info
+  3 sumbit button submit to database/  handle route put schema we did in class in NEW todo.js how to handle form post-->
+</html>

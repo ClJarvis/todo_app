@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Todo List</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= greeting %></h1>
+    <ul>
+      <% tasks.forEach(function(task){ %>
+      <li><%= task.dueDate %></li>
+      <li><%= task.toDoTitle %></li>
+      <li><%= task.description %></i>
+      <li><%= task.priority %></li>
+      <li><%= task.complete %></li>
+      <%  }) %>
+    </ul>
+
+
+  </body>
+</html>
