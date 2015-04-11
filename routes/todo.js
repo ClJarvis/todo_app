@@ -6,18 +6,19 @@ mongoose.connect('mongodb://localhost/test');
 
 
 var todoSchema = mongoose.Schema({
+    toDoTitle: String,
     dueDate: Date,
-    timestamp: { type: Date, default: Date.now},
+    // timestamp: { type: Date, default: Date.now},
     description: String,
-    ToDoTitle: String,
     priority: Number,
-    compelete: Boolean
+    toDoDone: Boolean
 });
 
 var Todo = mongoose.model('Todo', todoSchema);
 
 
 console.log("testing 1 2 3");
+console.log("toDoTitle");
 
 
 
@@ -27,7 +28,7 @@ router.get('/', function(req, res, next) {
     return Todo.find( function (err, tasks) {
     if(!err) {
         res.render('todo', {
-            greeting: "Howdy",
+            greeting: "Here's Your List",
             tasks: tasks
         });
         console.log(tasks);
@@ -40,8 +41,8 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res) {
 	new Todo({
-		dueDate: req.body.dueDate,
 		toDoTitle: req.body.toDoTitle,
+		dueDate: req.body.dueDate,
 		description: req.body.description,
 		toDoDone: req.body.toDoDone,
  		priority: req.body.priority
@@ -57,22 +58,13 @@ router.post('/', function(req, res) {
 
 
 
+// console.log(toDoTitle);
 
 
 // jQuery.validator.setDefaults({
 //   debug: true
 // });
 
-
-
-// var firstTodo = new Todo({
-//    due_date: Date.now(),
-//     timestamp: { type: Date, default: Date.now},
-//     description: "My first To do item",
-//     title: "First",
-//     priority: 10,
-//     compelete: false
-// });
 
 
 // $(document).ready(function() {
