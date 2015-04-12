@@ -6,10 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users =require('./routes/users');
-var todo=require('./routes/todo');
+var users = require('./routes/users');
+var todo = require('./routes/todo');
 
 var app = express();
+
+ var form = require('./routes/form');
+// tutorial mherman.org
 
 
 // view engine setup
@@ -28,6 +31,10 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/todo', todo);
 app.use('/create', todo);
+
+// tutorial mherman.org
+ app.use('/form', form);
+ app.use('/create', form);
 
 //get data from database
 
@@ -75,10 +82,8 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-// tutorial mherman.org
 
-// app.use('/form', form);
-// var form = require('./routes/form');
+
 
 
 
