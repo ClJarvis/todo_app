@@ -1,3 +1,6 @@
+// mongoose config herman
+// require('./database');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,11 +11,12 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var todo = require('./routes/todo');
+var form = require('./routes/form');
+// tutorial mherman.org
+
 
 var app = express();
 
- var form = require('./routes/form');
-// tutorial mherman.org
 
 
 // view engine setup
