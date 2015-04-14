@@ -10,11 +10,10 @@
   </head>
   <body >
     <h1><%= greeting %></h1>
-    <ul>
+    <ul class="list-unstyled">
       <% tasks.forEach(function(task){ %>
       <li><%= task.toDoTitle %></li>
       <li><%= task.dueDate %></li>
-
       <li><%= task.description %></i>
       <li><%= task.priority %></li>
        <li><%= task.toDoDone %></li>

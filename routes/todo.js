@@ -5,16 +5,59 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 
 
+
+// var todoSchema = mongoose.Schema({
+//     toDoTitle: String,
+//     dueDate: Date,
+//     description: String,
+//     priority: Number,
+//     toDoDone: Boolean
+// });
+
+
+
 var todoSchema = mongoose.Schema({
-    toDoTitle: String,
+    toDoTitle: { type:String, required:true},
     dueDate: Date,
-    // timestamp: { type: Date, default: Date.now},
-    description: String,
+    description: { type:String, required:true},
     priority: Number,
-    toDoDone: Boolean
+    toDoDone: { type:Boolean, required:true, default:false }
 });
 
 var Todo = mongoose.model('Todo', todoSchema);
+
+var app = express();
+
+
+app.post('/todo', function (req, res) {
+  var todo = new Todo(req.body);
+  mytodo.save(function (err, todo) {
+    if (err) {
+
+      res.render("error", {
+        error: {
+          status: 500,
+          stack: JSON.stringify(err.errors)
+        },
+        message: "You failed!"
+      });
+
+    } else {
+
+      res.render("todoList", {
+        title: "Todo created",
+        message: "Success!",
+        postData: JSON.stringify(req.body, null, 2)
+      });
+
+    }
+
+    console.log(todo);
+  });
+
+});
+
+
 
 
 console.log("testing 1 2 3");
@@ -58,34 +101,6 @@ router.post('/', function(req, res) {
 
 
 
-// console.log(toDoTitle);
 
-
-// jQuery.validator.setDefaults({
-//   debug: true
-// });
-
-
-
-// $(document).ready(function() {
-// 	console.log("time to validate");
-// 	$("#todoForm").validate/*.setDefaults*/({
-// 		rules: {
-// 			priority: {
-// 				required: true,
-// 				rangelength: [1, 10]
-// 			},
-// 			title:  {
-// 				required: true,
-// 				minlength: 5,
-// 				maxlength: 32
-// 			},
-// 			dueDate: {
-// 				required: true,
-// 				dateISO: true
-// 			}
-// 		  }
-// 		});
-// });
 
 module.exports = router;

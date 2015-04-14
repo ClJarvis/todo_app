@@ -1,12 +1,6 @@
 var express = require('express'); // tutorial test
 var router = express.Router();
 var mongoose = require('mongoose');
-//tutorial test
-// var Comment = mongoose.model('comments');
-
-
-// mongoose.connect('mongodb://localhost/test');
-
 
  var formSchema = mongoose.Schema({
     toDoTitle: String,
@@ -19,13 +13,6 @@ var mongoose = require('mongoose');
 
 var form = mongoose.model('form', formSchema);
 
-
-
-// GET form.  this does send info to form page//
-// router.get('/', function(req, res) {
-//   res.send('My funky form');
-
-// });
 
 router.get('/', function(req, res, next) {
     return form.find( function (err, tasks) {
@@ -41,12 +28,6 @@ router.get('/', function(req, res, next) {
     });
 
 });
-
-// POST form.  //
-// router.post('/', function(req, res) {
-//   console.log(req.body.comment);
-//   res.redirect('form');
-// });
 
 
 router.post('/', function(req, res) {

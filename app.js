@@ -1,6 +1,3 @@
-// mongoose config herman
-// require('./database');
-
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -16,6 +13,9 @@ var form = require('./routes/form');
 
 
 var app = express();
+
+
+
 
 
 
@@ -40,17 +40,22 @@ app.use('/create', todo);
  app.use('/form', form);
  app.use('/create', form);
 
+
+
+
+
 //get data from database
 
 ///not on joe git hub stuff from validation on wed?
-  // app.get('/', function(req, res) {
-  //   res.send('hello world');
-  // });
+  app.get('/', function(req, res) {
+    res.send('hello world');
+  });
 
-  // app.post('/todo', function (req, res) {
-  //   console.log('connected');  /// post to database
-  //   res.send('POST request to the homepage');
-  // });
+  app.post('/todo', function (req, res) {
+    console.log('req.body');  /// post to database
+    res.send('POST request to the homepage');
+  });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

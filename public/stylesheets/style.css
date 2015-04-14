@@ -23,3 +23,6 @@ input + label.error {
  color: #000000;
 }
 
+li {
+font-weight: bold;
+}
