@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= message %></h1>
+     <table class="table table-striped">
+      <% tasks.forEach(function(task){ %>
+      <tr><%= task.toDoTitle %></tr>
+      <tr><%= task.dueDate %></tr>
+      <tr><%= task.description %><tr>
+      <tr><%= task.priority %></tr>
+       <tr><%= task.toDoDone %></tr>
+
+      <%  }) %>
+     </table>
+
+  </body>
+</html>
