@@ -79,6 +79,7 @@ if (app.get('env') === 'development') {
 }
 
 // production error handler
+
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
@@ -88,48 +89,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
 module.exports = app;
 
-
-
-
-
-
-// var mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/test');
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function (callback) {
-//   // yay!
-//   console.log("connected")
-// });
-
-
-
-
-// var firstTodo = new Todo({
-//    due_date: Date.now(),
-//     timestamp: { type: Date, default: Date.now},
-//     description: "My first To do item",
-//     title: "First",
-//     priority: 10,
-//     compelete: false
-// });
-
-
-
-// firstTodo.save(function (err, first) {
-//   if (err) {
-//    return console.error(err);
-//     }
-//   console.log(first);
-
-// });
-
-
-// var routes = require('./routes/index');
-// var users = require('./routes/users');
 
 
 

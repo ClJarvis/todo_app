@@ -6,14 +6,6 @@ mongoose.connect('mongodb://localhost/test');
 
 
 
-// var todoSchema = mongoose.Schema({
-//     toDoTitle: String,
-//     dueDate: Date,
-//     description: String,
-//     priority: Number,
-//     toDoDone: Boolean
-// });
-
 
 
 var todoSchema = mongoose.Schema({
@@ -27,36 +19,6 @@ var todoSchema = mongoose.Schema({
 var Todo = mongoose.model('Todo', todoSchema);
 
 var app = express();
-
-
-app.post('/todo', function (req, res) {
-  var todo = new Todo(req.body);
-  mytodo.save(function (err, todo) {
-    if (err) {
-
-      res.render("error", {
-        error: {
-          status: 500,
-          stack: JSON.stringify(err.errors)
-        },
-        message: "You failed!"
-      });
-
-    } else {
-
-      res.render("todoList", {
-        title: "Todo created",
-        message: "Success!",
-        postData: JSON.stringify(req.body, null, 2)
-      });
-
-    }
-
-    console.log(todo);
-  });
-
-});
-
 
 
 
@@ -100,7 +62,33 @@ router.post('/', function(req, res) {
 });
 
 
+app.post('/todo', function (req, res) {
+  var mytodo = new Todo(req.body);
+  mytodo.save(function (err, todo) {
+    if (err) {
 
+      res.render("error", {
+        error: {
+          status: 500,
+          stack: JSON.stringify(err.errors)
+        },
+        message: "You failed!"
+      });
+
+    } else {
+
+      res.render("todoList", {
+        title: "Todo created",
+        message: "Success!",
+        postData: JSON.stringify(req.body, null, 2)
+      });
+
+    }
+
+    console.log(todo);
+  });
+
+});
 
 
 module.exports = router;
