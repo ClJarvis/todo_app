@@ -25,7 +25,19 @@ var app = express();
 // console.log("testing 1 2 3");
 // console.log("toDoTitle");
 
+router.delete('/', function (req, res) {
 
+  Todo.find({ _id: req.body.todo_id })
+  .remove(function( err ) {
+
+    if(err) {
+      console.log(err);
+    } else {
+      res.send("success!");
+    }
+  });
+
+});
 
 // Post form *//
 

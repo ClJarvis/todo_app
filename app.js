@@ -51,10 +51,10 @@ app.use('/create', todo);
     res.send('hello world');
   });
 
-  app.post('/todo', function (req, res) {
-    console.log('req.body');  /// post to database
-    res.send('POST request to the homepage');
-  });
+  // app.post('/todo', function (req, res) {
+  //   console.log('req.body');  /// post to database
+  //   res.send('POST request to the homepage');
+  // });
 
 
 // catch 404 and forward to error handler
