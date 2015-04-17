@@ -44,11 +44,11 @@ router.delete('/', function (req, res) {
 router.get('/', function(req, res, next) {
     return Todo.find( function (err, tasks) {
     if(!err) {
-        res.render('todo', {
+        res.render('todoList', {
             greeting: "Here's Your List",
             tasks: tasks
         });
-        // console.log(tasks);
+        console.log(tasks);
         } else {
             return console.log(err);
         }

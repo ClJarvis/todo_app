@@ -4,7 +4,7 @@ $(document).ready(function() {
 		var todoItemId = $(this) [0].id;
 		console.log(todoItemId);
 		$.ajax({
-			url: "/todo",  // removed todo file is already in todo dir */
+			url: "/todo",  // removed todo file is already in todo dir /
 			method: "DELETE",
 			data: {
 				todo_id: todoItemId

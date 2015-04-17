@@ -48,7 +48,7 @@ router.get('/', function(req, res, next) {
             greeting: "Here's Your List",
             tasks: tasks
         });
-        // console.log(tasks);
+        console.log(tasks);
         } else {
             return console.log(err);
         }
