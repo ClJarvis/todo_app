@@ -90,7 +90,7 @@ console.log("will it render")
     }
   });
 });
-
+console.log("yes")
 
 app.post('/todo', function (req, res) {
 
