@@ -8,13 +8,15 @@ $(document).ready(function() {
 			method: "DELETE",
 			data: {
 				todo_id: todoItemId
-			}
 		},
-		success; function (response) {
+		success: function (response) {
 			//refresh page OR
-
+		// }
 			//remove DOM Element
+			$( "#todo_"+todoItemId ).remove( );
+			}
 		});
 	});
 
 });
+
