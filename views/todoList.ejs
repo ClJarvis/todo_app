@@ -7,23 +7,24 @@
   </head>
   <body>
     <h1><%= message %></h1>
-    <div class="row">
 
-      <% for (var c = 0;  c < todos.length; c++) { %>
+
+       <% for (var c = 0;  c < todos.length; c++) { %>
       	<% var currentTodo = todos[c]; %>
+      	<!--  <% tasks.forEach(function(task){ %> -->
 
       <div class="todo-item" id="todo_<%= currentTodo._id %>">
-	      <div class="col-md-1"><%= currentTodo.toDoTitle %></div>
-	      <div class="col-md-1"><%= currentTodo.dueDate %></div>
-	      <div class="col-md-1"><%= currentTodo.description %></div>
-	      <div class="col-md-1"><%= currentTodo.priority %></div>
-	       <div class="col-md-1"><%= currentTodo.toDoDone %></div>
+	      <div class="col-md-1"><%= task.toDoTitle %></div>
+	      <div class="col-md-1"><%= task.dueDate %></div>
+	      <div class="col-md-1"><%= task.description %></div>
+	      <div class="col-md-1"><%= task.priority %></div>
+	       <div class="col-md-1"><%= task.toDoDone %></div>
 		 <div><!--delete button -->
       	<button class="deleteButton" id="<%= currentTodo._id %>">Delete This!</button>
       	</div><!--delete button -->
-	</div><!--todo div -->
-    <!--   <%  }) %> -->
-     </div >
+	</div><!--list -->
+      <%  }) %>
+
 
 		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>

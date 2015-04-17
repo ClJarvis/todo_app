@@ -4,7 +4,7 @@ $(document).ready(function() {
 		var todoItemId = $(this) [0].id;
 
 		$.ajax({
-			url: "/todo",
+			url: "/",
 			method: "DELETE",
 			data: {
 				todo_id: todoItemId
