@@ -12,6 +12,7 @@
     <p> <%= body %></p>
 
 <form method="POST" action="/todo"  id="todoform" class="form-horizontal bg-primary">
+	<input type="hidden" id="_id" value="<%= todo._title %>">
 	    	<div class="form-group">
 	    		 <label for="toDoTitle" class="col-sm-2 control-label">TItle:</label>
 		    		<div class="col-sm-10">

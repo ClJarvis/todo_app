@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 	$(".editButton").click(function () {
 		var todoItemId = $(this) [0].id;
-
+		console.log(todoItemId);
 		window.location.href = "/todo/" + todoItemId;
 
 	});

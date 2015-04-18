@@ -107,10 +107,10 @@ app.post('/todo', function (req, res) {
 //handle a GET request from client
 router.get('/:id', function (req, res) {
   console.log(req.params.id);
-   if (req.body.todo_id){
-    Todo.find({ _id: req.body.todo_id }, function (req, err) {
+   if (req.params.id){
+    Todo.find({ _id: req.params.id }, function (err, item) {
         var thisitem = item[0];
-
+        console.log(thisitem);
       if(err) {
         console.log(err);
 
@@ -120,7 +120,7 @@ router.get('/:id', function (req, res) {
           {
             title : 'Express Todo Example',
             header : 'Hello',
-            body_text: 'the jungle',
+            body: 'the jungle',
             todo: thisitem
           });
 
