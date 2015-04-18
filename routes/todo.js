@@ -44,7 +44,7 @@ router.delete('/', function (req, res) {
 router.get('/', function(req, res, next) {
     return Todo.find( function (err, tasks) {
     if(!err) {
-        res.render('todo', {
+        res.render('todoList', { //change todo loose you
             greeting: "Here's Your List",
             tasks: tasks
         });

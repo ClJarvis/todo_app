@@ -47,9 +47,9 @@ app.use('/create', todo);
 //get data from database
 
 ///not on joe git hub stuff from validation on wed?
-    // app.get('/', function(req, res) {
-    //   res.send('hello world');
-    // });
+  app.get('/', function(req, res) {
+    res.send('hello world');
+  });
 
   // app.post('/todo', function (req, res) {
   //   console.log('req.body');  /// post to database
