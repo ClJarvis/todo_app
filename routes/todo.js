@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var todoList = [];
+
+//include the model for a Todo that we set up in Mongoose
+// var Todo = require('../models/todo');
+
 
 mongoose.connect('mongodb://localhost/test');
 
@@ -44,8 +49,10 @@ router.delete('/', function (req, res) {
 router.get('/', function(req, res, next) {
     return Todo.find( function (err, tasks) {
     if(!err) {
-        res.render('todoList', { //change todo loose you
+        res.render('todoList', { //change todo lose your list
             greeting: "Here's Your List",
+            title: "List",
+            message: "test",
             tasks: tasks
         });
         console.log(tasks);
@@ -74,14 +81,14 @@ router.post('/', function(req, res) {
     } else {
 
       Todo.find( function (err, tasks) {
-console.log("this works")
+console.log("this works");
         if (!err) {
           res.render('todoList', {
               title: "Todo created",
               message: "Success!",
               tasks: tasks
           });
-console.log("will it render")
+console.log("will it render");
         } else {
           return console.log(err);
         }
@@ -95,6 +102,45 @@ console.log("will it render")
 app.post('/todo', function (req, res) {
 
 
+});
+
+//handle a GET request from client
+router.get('/:id', function (req, res) {
+  console.log(req.params.id);
+   if (req.body.todo_id){
+    Todo.find({ _id: req.body.todo_id }, function (req, err) {
+        var thisitem = item[0];
+
+      if(err) {
+        console.log(err);
+
+        //find successful
+      } else {
+        res.render('index',
+          {
+            title : 'Express Todo Example',
+            header : 'Hello',
+            body_text: 'the jungle',
+            todo: thisitem
+          });
+
+      }
+    });
+  };
+
+
+});
+
+router.get('/', function (req, res) {
+  console.log(req.body);
+  ////
+      res.render('index',
+      {
+        title : 'Express Todo Example',
+            header : 'Hello',
+            body_text: 'the jungle',
+          }
+      );
 });
 
 
