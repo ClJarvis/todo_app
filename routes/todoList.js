@@ -75,7 +75,7 @@ router.post('/', function(req, res) {
 
       Todo.find( function (err, tasks) {
 console.log("this works")
-        if (!err) {
+        if (err) {   //had (!err) ?
           res.render('todoList', {
               title: "Todo created",
               message: "Success!",

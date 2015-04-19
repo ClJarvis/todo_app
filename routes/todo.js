@@ -18,7 +18,7 @@ var getAllTodos = function (req,res,next) {
       next();
     }
   });
-}
+};
 
 
 var todoSchema = mongoose.Schema({
@@ -68,7 +68,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/', function (req, res, next) {
-      res.render('todoList', { //change todo lose your list header
+      res.render('todo', { //change todo lose your list header
           greeting: "Here's Your List",
           title: "List",
           message: "test",
@@ -103,7 +103,7 @@ router.post('/', function(req, res, next) {
             console.log(err);
             //send back the error view so it doesn't time out an error.
            } else {
-            res.send("YAY! We updated it successfuly!")
+            res.send("YAY! We updated it successfuly!");
            }
         });
       }
@@ -148,7 +148,7 @@ router.post('/', function (req, res, next) {
 
 app.post('/todo', function (req, res) {
 
-
+  console.log("test terminal");
 });
 
 //handle a GET request from client
@@ -187,7 +187,7 @@ router.get('/', function (req, res) {
       {
         title : 'Express Todo Example',
             header : 'Hello',
-            body: 'the jungle',
+            body: 'the jungle'
           }
       );
 });
