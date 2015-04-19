@@ -9,30 +9,43 @@ var todoList = [];
 
 mongoose.connect('mongodb://localhost/test');
 
-var getAllTodos = function (req,res,next) {
+// var getAllTodos = function (req,res,next) {
+//   Todo.find({}, function (err, list) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       todoList = list;
+//       next();
+//     }
+//   });
+// };
+
+
+// var todoSchema = mongoose.Schema({
+//     toDoTitle: { type:String, required:true},
+//     dueDate: Date,
+//     description: { type:String, required:true},
+//     priority: Number,
+//     toDoDone: { type:Boolean,  default:false }
+// });
+
+// var Todo = mongoose.model('Todo', todoSchema);
+
+// var app = express();
+// send the todo list back to user
+var sendTodoList = function (req, res, next) {
   Todo.find({}, function (err, list) {
     if (err) {
       console.log(err);
     } else {
-      todoList = list;
-      next();
+      res.render("todoList", {
+        title: "List of tasks",
+        message: "Things you still need to do",
+        todos: list
+      });
     }
   });
-};
-
-
-var todoSchema = mongoose.Schema({
-    toDoTitle: { type:String, required:true},
-    dueDate: Date,
-    description: { type:String, required:true},
-    priority: Number,
-    toDoDone: { type:Boolean,  default:false }
-});
-
-var Todo = mongoose.model('Todo', todoSchema);
-
-var app = express();
-
+}
 
 
 // console.log("testing 1 2 3");
@@ -44,7 +57,14 @@ router.delete('/', function (req, res) {
   .remove(function( err ) {
 
     if(err) {
-      console.log(err);
+      res.render("error", {
+        error: {
+          status: 500,
+          stack: JSON.stringify(err.errors)
+        },
+        message: "Could not delete your task"
+      });
+
     } else {
       res.send("success!");
     }
@@ -56,54 +76,75 @@ router.delete('/', function (req, res) {
 
 //handle a GET request from the client to todo/list
 
-router.get('/', function(req, res, next) {
+router.get('/list', function(req, res, next) { ///need list?
     // return Todo.find( function (err, tasks) {
       Todo.find({}, function (err, list) {
         if (err) {
           console.log(err);
+             res.render("error", {
+                error: {
+                  status: 500,
+                  stack: JSON.stringify(err.errors)
+                },
+                message: "Could not find any tasks"
+            });
         } else {
-          getAllTodos(req, res, next);
+          sendTodoList(req, res, next);
         }
     });
 });
 
-router.get('/', function (req, res, next) {
-      res.render('todo', { //change todo lose your list header
-          greeting: "Here's Your List",
-          title: "List",
-          message: "test",
-          todos: todoList
-    });
+// router.get('/', function (req, res, next) {
+//       res.render('todoList', { //change todo lose your list header
+//           greeting: "Here's Your List",
+//           title: "List",
+//           message: "test",
+//           todos: todoList
+//     });
 
-});
+// });
 
-//handel a POST request from client to /todo
+//handle a POST request from client to /todo
 
 router.post('/', function(req, res, next) {
 
 
   //user edits an existing item
-  if (req.body._id) {
+  if (req.body.db._id !== " ") { // space between parens?
 
     //find item to edit
     Todo.findOne({_id: req.body._id}, function(err, foundTodo) {
+
       if (err) {
         console.log(err);
         //send back error view so it doesn't time out on error.
+        res.render("error", {
+          error: {
+            status: 500,
+            stack: JSON.stringify(err.errors)
+          },
+          message: "Could not find that task."
+        });
       } else {
         //found item Now update the values based on form POST Data.
         foundTodo.title = req.body.title;
         foundTodo.dueDate = req.body.dueDate;
         foundTodo.description = req.body.description;
         foundTodo.priority = req.body.priority;
-        foundTodo.toDoDone = req.body.toDoDone;
+        foundTodo.toDoDone = (req.body.toDoDone) ? req.body.complete : false;
         //save update list item
         foundTodo.save(function (err, newOne) {
            if (err) {
-            console.log(err);
+            res.render("error", {
+              error: {
+                status: 500,
+                stack: JSON.stringify(err.errors)
+              },
+              message: "Could not save task with updated information."
+            });
             //send back the error view so it doesn't time out an error.
            } else {
-            res.send("YAY! We updated it successfuly!");
+            res.redirect('/list');  // /todo removed put back if needed
            }
         });
       }
@@ -128,7 +169,7 @@ router.post('/', function(req, res, next) {
 
     } else {
 
-      getAllTodos(req, res, next);
+      res.redirect('/list');  // /todo removed put it back if needed
 
       }
     });
@@ -137,19 +178,19 @@ router.post('/', function(req, res, next) {
 
 });
 
-router.post('/', function (req, res, next) {
-  res.render("todoList", {
-    title: "List of tasks",
-    message: "Your tasks",
-    todos: todoList
-  });
-});
+// router.post('/', function (req, res, next) {
+//   res.render("todoList", {
+//     title: "List of tasks",
+//     message: "Your tasks",
+//     todos: todoList
+//   });
+// });
 
 
-app.post('/todo', function (req, res) {
+// app.post('/todo', function (req, res) {
 
-  console.log("test terminal");
-});
+//   console.log("test terminal");
+// });
 
 //handle a GET request from client
 router.get('/:id', function (req, res) {
@@ -163,8 +204,7 @@ router.get('/:id', function (req, res) {
 
         //find successful
       } else {
-        res.render('index',
-          {
+        res.render('todo', {
             title : 'Express Todo Example',
             header : 'Your To Do List',
             body: 'all the stuff you gotta do',
@@ -175,7 +215,6 @@ router.get('/:id', function (req, res) {
     });
   };
 
-
 });
 
 //handle a GET Request from the client to  todo
@@ -183,13 +222,16 @@ router.get('/:id', function (req, res) {
 router.get('/', function (req, res) {
   console.log(req.body);
   ////
-      res.render('index',
-      {
+      res.render('todo', {
         title : 'Express Todo Example',
-            header : 'Hello',
-            body: 'the jungle'
+        todo: {
+            toDoTitle: ' ',
+            description: ' ',
+            priority: 1,
+            dueDate: new Date(),
+            toDoDone: false
           }
-      );
+      });
 });
 
 

@@ -5,9 +5,6 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/test');
 
 
-
-
-
 var todoSchema = mongoose.Schema({
     toDoTitle: { type:String, required:true},
     dueDate: Date,
