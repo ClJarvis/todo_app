@@ -9,8 +9,16 @@ var todoList = [];
 
 mongoose.connect('mongodb://localhost/test');
 
-
-
+var getAllTodos = function (req,res,next) {
+  Todo.find({}, function (err, list) {
+    if (err) {
+      console.log(err);
+    } else {
+      todoList = list;
+      next();
+    }
+  });
+}
 
 
 var todoSchema = mongoose.Schema({
@@ -28,7 +36,7 @@ var app = express();
 
 
 // console.log("testing 1 2 3");
-// console.log("toDoTitle");
+// handle a DELETE REQUEST FROM user to todo
 
 router.delete('/', function (req, res) {
 
@@ -44,27 +52,67 @@ router.delete('/', function (req, res) {
 
 });
 
-// Post form *//
+// Post form //
+
+//handle a GET request from the client to todo/list
 
 router.get('/', function(req, res, next) {
-    return Todo.find( function (err, tasks) {
-    if(!err) {
-        res.render('todoList', { //change todo lose your list
-            greeting: "Here's Your List",
-            title: "List",
-            message: "test",
-            tasks: tasks
-        });
-        console.log(tasks);
+    // return Todo.find( function (err, tasks) {
+      Todo.find({}, function (err, list) {
+        if (err) {
+          console.log(err);
         } else {
-            return console.log(err);
+          getAllTodos(req, res, next);
         }
+    });
+});
+
+router.get('/', function (req, res, next) {
+      res.render('todoList', { //change todo lose your list header
+          greeting: "Here's Your List",
+          title: "List",
+          message: "test",
+          todos: todoList
     });
 
 });
 
-router.post('/', function(req, res) {
-  var mytodo = new Todo(req.body);
+//handel a POST request from client to /todo
+
+router.post('/', function(req, res, next) {
+
+
+  //user edits an existing item
+  if (req.body._id) {
+
+    //find item to edit
+    Todo.findOne({_id: req.body._id}, function(err, foundTodo) {
+      if (err) {
+        console.log(err);
+        //send back error view so it doesn't time out on error.
+      } else {
+        //found item Now update the values based on form POST Data.
+        foundTodo.title = req.body.title;
+        foundTodo.dueDate = req.body.dueDate;
+        foundTodo.description = req.body.description;
+        foundTodo.priority = req.body.priority;
+        foundTodo.toDoDone = req.body.toDoDone;
+        //save update list item
+        foundTodo.save(function (err, newOne) {
+           if (err) {
+            console.log(err);
+            //send back the error view so it doesn't time out an error.
+           } else {
+            res.send("YAY! We updated it successfuly!")
+           }
+        });
+      }
+
+    });
+
+  } else {
+    var mytodo = new Todo(req.body);
+
   mytodo.save(function (err, todo) {
 
     if (err) {
@@ -80,21 +128,20 @@ router.post('/', function(req, res) {
 
     } else {
 
-      Todo.find( function (err, tasks) {
-console.log("this works");
-        if (!err) {
-          res.render('todoList', {
-              title: "Todo created",
-              message: "Success!",
-              tasks: tasks
-          });
-console.log("will it render");
-        } else {
-          return console.log(err);
-        }
+      getAllTodos(req, res, next);
 
-      });
-    }
+      }
+    });
+
+  }
+
+});
+
+router.post('/', function (req, res, next) {
+  res.render("todoList", {
+    title: "List of tasks",
+    message: "Your tasks",
+    todos: todoList
   });
 });
 
@@ -106,8 +153,8 @@ app.post('/todo', function (req, res) {
 
 //handle a GET request from client
 router.get('/:id', function (req, res) {
-  console.log(req.params.id);
-   if (req.params.id){
+  // console.log(req.params.id);
+   if (req.params.id){  //// ??is this needed ?
     Todo.find({ _id: req.params.id }, function (err, item) {
         var thisitem = item[0];
         console.log(thisitem);
@@ -119,8 +166,8 @@ router.get('/:id', function (req, res) {
         res.render('index',
           {
             title : 'Express Todo Example',
-            header : 'Hello',
-            body: 'the jungle',
+            header : 'Your To Do List',
+            body: 'all the stuff you gotta do',
             todo: thisitem
           });
 
@@ -131,6 +178,8 @@ router.get('/:id', function (req, res) {
 
 });
 
+//handle a GET Request from the client to  todo
+
 router.get('/', function (req, res) {
   console.log(req.body);
   ////
@@ -138,7 +187,7 @@ router.get('/', function (req, res) {
       {
         title : 'Express Todo Example',
             header : 'Hello',
-            body_text: 'the jungle',
+            body: 'the jungle',
           }
       );
 });
