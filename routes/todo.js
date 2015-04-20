@@ -6,6 +6,17 @@ var todoList = [];
 //include the model for a Todo that we set up in Mongoose
 // var Todo = require('../models/todo');
 
+var todoSchema = mongoose.Schema({
+    toDoTitle: { type:String, required:true},
+    dueDate: Date,
+    description: { type:String, required:true},
+    priority: Number,
+    toDoDone: { type:Boolean,  default:false }
+});
+
+var Todo = mongoose.model('Todo', todoSchema);
+
+
 mongoose.connect('mongodb://localhost/test');
 
  var app = express();
@@ -27,7 +38,7 @@ var sendTodoList = function (req, res, next) {
 //handle a GET request from the client to todo/list
 
 
-router.get('/list', function(req, res, next) { ///need list?
+router.get('/list', function (req, res, next) { ///need list?
     // return Todo.find( function (err, tasks) {
       Todo.find({}, function (err, list) {
         if (err) {
@@ -52,7 +63,7 @@ router.get('/list', function(req, res, next) { ///need list?
 router.delete('/', function (req, res) {
 
   Todo.find({ _id: req.body.todo_id })
-          .remove(function( err ) {
+          .remove(function ( err ) {
 
         if(err) {
           res.render("error", {
@@ -73,14 +84,14 @@ router.delete('/', function (req, res) {
 
 //handle a POST request from client to /todo
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
 
 
   //user edits an existing item
-  if (req.body.db._id !== "") { // space between parens?
+  if (req.body.db_id !== "") { // space between parens?
 
     //find item to edit
-    Todo.findOne({_id: req.body.db_id}, function(err, foundTodo) {
+    Todo.findOne({_id: req.body.db_id}, function (err, foundTodo) {
 
       if (err) {
         console.log(err);
@@ -186,29 +197,43 @@ router.get('/', function (req, res) {
 });
 
 
+router.get('/', function (req, res, next) {
+      res.render('/', { //change todo lose your list header
+          greeting: "Here's Your List",
+          title: "List",
+          message: "test",
+          todos: todoList
+    });
+
+});
+
+
+var getAllTodos = function (req,res,next) {
+  Todo.find({}, function (err, list) {
+    if (err) {
+      console.log(err);
+    } else {
+      todoList = list;
+      next();
+    }
+  });
+};
+
+router.post('/', function (req, res, next) {
+  res.render("todoList", {
+    title: "List of tasks",
+    message: "Your tasks",
+    todos: todoList
+  });
+});
+
+
+app.post('/todo', function (req, res) {
+
+  console.log("test terminal");
+});
+
 module.exports = router;
-
-// var getAllTodos = function (req,res,next) {
-//   Todo.find({}, function (err, list) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       todoList = list;
-//       next();
-//     }
-//   });
-// };
-
-
-// var todoSchema = mongoose.Schema({
-//     toDoTitle: { type:String, required:true},
-//     dueDate: Date,
-//     description: { type:String, required:true},
-//     priority: Number,
-//     toDoDone: { type:Boolean,  default:false }
-// });
-
-// var Todo = mongoose.model('Todo', todoSchema);
 
 
 
@@ -216,26 +241,3 @@ module.exports = router;
 
 
 
-// router.get('/', function (req, res, next) {
-//       res.render('todoList', { //change todo lose your list header
-//           greeting: "Here's Your List",
-//           title: "List",
-//           message: "test",
-//           todos: todoList
-//     });
-
-// });
-
-// router.post('/', function (req, res, next) {
-//   res.render("todoList", {
-//     title: "List of tasks",
-//     message: "Your tasks",
-//     todos: todoList
-//   });
-// });
-
-
-// app.post('/todo', function (req, res) {
-
-//   console.log("test terminal");
-// });
