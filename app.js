@@ -11,7 +11,8 @@ var todo = require('./routes/todo');
 var form = require('./routes/form');
 // tutorial mherman.org
 
-
+// Include instructions on how to connect to the database
+// var db = require('./db');
 var app = express();
 
 

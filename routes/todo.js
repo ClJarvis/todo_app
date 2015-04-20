@@ -29,7 +29,7 @@ var sendTodoList = function (req, res, next) {
       res.render("todoList", {
         title: "List of tasks",
         message: "Things you still need to do",
-        todos: list
+        tasks: list
       });
     }
   });
@@ -40,20 +40,7 @@ var sendTodoList = function (req, res, next) {
 
 router.get('/list', function (req, res, next) { ///need list?
     // return Todo.find( function (err, tasks) {
-      Todo.find({}, function (err, list) {
-        if (err) {
-          console.log(err);
-             res.render("error", {
-                error: {
-                  status: 500,
-                  stack: JSON.stringify(err.errors)
-                },
-                message: "Could not find any tasks"
-            });
-        } else {
-          sendTodoList(req, res, next);
-        }
-    });
+  sendTodoList(req, res, next);
 });
 
 
@@ -86,9 +73,10 @@ router.delete('/', function (req, res) {
 
 router.post('/', function (req, res, next) {
 
+  console.log(req.body.hasOwnProperty("db_id"))
 
   //user edits an existing item
-  if (req.body.db_id !== "") { // space between parens?
+  if (req.body.hasOwnProperty("db_id")) { // space between parens?
 
     //find item to edit
     Todo.findOne({_id: req.body.db_id}, function (err, foundTodo) {
@@ -105,7 +93,7 @@ router.post('/', function (req, res, next) {
         });
       } else {
         //found item Now update the values based on form POST Data.
-        foundTodo.title = req.body.title;
+        foundTodo.title = req.body.toDoTitle;
         foundTodo.dueDate = req.body.dueDate;
         foundTodo.description = req.body.description;
         foundTodo.priority = req.body.priority;
@@ -145,7 +133,7 @@ router.post('/', function (req, res, next) {
       });
 
     } else {
-
+      console.log('New item redirect to list')
       res.redirect('/todo/list');  // /todo removed put it back if needed
 
       }
@@ -197,42 +185,6 @@ router.get('/', function (req, res) {
 });
 
 
-router.get('/', function (req, res, next) {
-      res.render('/', { //change todo lose your list header
-          greeting: "Here's Your List",
-          title: "List",
-          message: "test",
-          todos: todoList
-    });
-
-});
-
-
-var getAllTodos = function (req,res,next) {
-  Todo.find({}, function (err, list) {
-    if (err) {
-      console.log(err);
-    } else {
-      todoList = list;
-      next();
-    }
-  });
-};
-
-router.post('/', function (req, res, next) {
-  res.render("todoList", {
-    title: "List of tasks",
-    message: "Your tasks",
-    todos: todoList
-  });
-});
-
-
-app.post('/todo', function (req, res) {
-
-  console.log("test terminal");
-});
-
 module.exports = router;
 
 
@@ -241,3 +193,39 @@ module.exports = router;
 
 
 
+
+// router.get('/', function (req, res, next) {
+//       res.render('/', { //change todo lose your list header
+//           greeting: "Here's Your List",
+//           title: "List",
+//           message: "test",
+//           todos: todoList
+//     });
+
+// });
+
+
+// var getAllTodos = function (req,res,next) {
+//   Todo.find({}, function (err, list) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       todoList = list;
+//       next();
+//     }
+//   });
+// };
+
+// router.post('/', function (req, res, next) {
+//   res.render("todoList", {
+//     title: "List of tasks",
+//     message: "Your tasks",
+//     todos: todoList
+//   });
+// });
+
+
+// app.post('/todo', function (req, res) {
+
+//   console.log("test terminal");
+// });
